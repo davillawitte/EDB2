@@ -5,6 +5,8 @@
 
   Neste projeto, vocês devem implementar uma árvore binária para representar expressões matemáticas envolvendo números inteiros e os operadores binários +, -, *, /. Como estamos considerando apenas valores inteiros, a divisão aqui é inteira. O programa de vocês deve receber como entrada um arquivo de texto (posfixa.in) com uma lista de expressões matemáticas escritas em notação polonesa (uma expressão por linha). Como saída, seu programa deve gerar 3 arquivos: aval.out, prefixa.out e infixa.out.
 
+## 🛠️ Como executar o projeto 🛠️
+**preencher**
 
 ## Por que em C++?
 Por ter adquirido intimidade ao realizar um grande projeto na matéria de LP1, a qual utiliza como linguagem principal o C++. Além disso, não gostamos dos problemas de gerenciamento de memória da linguagem C.
