@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//construindo a arvore binaria
 struct Node
 {
 	char data;
@@ -30,7 +31,7 @@ struct Node
 
 ofstream arquivoPreOrdem("prefixa.out.txt");
 
-//Imprime em nota��o prefixa
+//Imprime em notacao prefixa
 char imprimePrefixa(Node* raiz)
 {
 
@@ -39,12 +40,13 @@ char imprimePrefixa(Node* raiz)
 	}
 
     arquivoPreOrdem.put(raiz->data);
+    cout << raiz->data;
     imprimePrefixa(raiz->esq);
     imprimePrefixa(raiz->dir);
 
 }
 
-// Imprime em nota��o polonesa/posfixa
+// Imprime em notacao polonesa/posfixa
 void imprimePosfixa(Node* raiz)
 {
 	if (raiz == nullptr) {
@@ -57,14 +59,14 @@ void imprimePosfixa(Node* raiz)
 }
 
 
-// Essa fun��o vai ver se � um operador ou nao
+// Essa funcao vai ver se eh um operador ou nao
 bool ehOperador(char op) {
 	return (op == '+' || op == '-' || op == '*' || op == '/');
 }
 
 ofstream arquivoInfixa("infixa.out.txt");
 
-// Imprime em nota��o infixa
+// Imprime em notacao infixa
 void imprimeInfixa(Node* raiz)
 {
 
@@ -90,8 +92,7 @@ void imprimeInfixa(Node* raiz)
 	}
 }
 
-
-// Funcao para construir a �rvore >> expressao posfixa
+// Funcao para construir a arvore >> expressao posfixa
 Node* construct(string postfix)
 {
 	// caso base, quando o tamanho da stack for 0
@@ -106,7 +107,7 @@ Node* construct(string postfix)
 	{
 		if (ehOperador(op))
 		{
-			// realizando pop do n� x e do n� y
+			// realizando pop do no x e do no y
 			Node* x = s.top();
 			s.pop();
 
@@ -125,12 +126,12 @@ Node* construct(string postfix)
 	return s.top();
 }
 
-
+//funcao que analisa se eh folha ou nao
 bool ehFolha(Node* raiz) {
     return raiz->esq == nullptr && raiz->dir == nullptr;
 }
 
-// Fun��o que faz o calculo das 'folhas'
+// Funcao que faz o calculo das 'folhas'
 int calcfolha(char op, int x, int y)
 {
     if (op == '+') { return x + y; }
@@ -150,25 +151,25 @@ int Resultado(Node* raiz)
         return 0;
     }
 
-    // ver se � uma folha e faz a convers�o de char para int
+    // ver se eh uma folha e faz a conversao de char para int
     if (ehFolha(raiz)) {
-        // fazendo a convers�o
+        // fazendo a conversao
         stringstream strm;
         strm << raiz->data;
         return stoi(strm.str());
     }
 
-    // calculo recursivo: sub-�rvore da esquerda e sub-�rvore da direita
+    // calculo recursivo: sub-arvore da esquerda e sub-arvore da direita
     int x = Resultado(raiz->esq);
     int y = Resultado(raiz->dir);
 
-    //fun��o para calculo das folhas x e y (vide fun��o calcFolha())
+    //funcao para calculo das folhas x e y (vide funcao calcFolha())
     return calcfolha(raiz->data, x, y);
 }
 
 int main()
 {
-
+    //declarando arquivos solicitados
     ifstream posfixa;
     ofstream aval, prefixa, infixa;
 
@@ -197,7 +198,7 @@ int main()
 
     if(posfixa.is_open()){
 
-        while(getline(posfixa, linha)){ // pegando linha por linha do arquivo, pois cada linha � uma express�o
+        while(getline(posfixa, linha)){ // pegando linha por linha do arquivo, pois cada linha eh uma expressao
 
             Node* raiz = construct(linha);
 
@@ -208,25 +209,23 @@ int main()
             imprimeInfixa(raiz);
 			arquivoInfixa << endl;
 
-            cout << endl << "RESULTADO: ";
-			result << Resultado(raiz) << endl;
-            cout << Resultado(raiz);
-
-			
-
             cout << endl << "Expressao em pre-fixa: ";
             cout << imprimePrefixa(raiz);
             arquivoPreOrdem << endl;
 
+            cout << endl << "RESULTADO: ";
+			result << Resultado(raiz) << endl;
+            cout << Resultado(raiz);
+
         }
 			//fecha os respectivos arquivos
-            posfixa.close(); 
-			arquivoInfixa.close(); 
+            posfixa.close();
+			arquivoInfixa.close();
 			arquivoPreOrdem.close();
 			result.close();
 
         }else{
-        cout << "Nao foi poss�vel abrir posfixa.txt" << endl;
+        cout << "Nao foi possivel abrir posfixa.txt" << endl;
     }
 
     return 0;
