@@ -30,7 +30,7 @@ struct Node
 
 ofstream arquivoPreOrdem("prefixa.out.txt");
 
-//Imprime em notação prefixa
+//Imprime em notaï¿½ï¿½o prefixa
 char imprimePrefixa(Node* raiz)
 {
 
@@ -44,7 +44,7 @@ char imprimePrefixa(Node* raiz)
 
 }
 
-// Imprime em notação polonesa/posfixa
+// Imprime em notaï¿½ï¿½o polonesa/posfixa
 void imprimePosfixa(Node* raiz)
 {
 	if (raiz == nullptr) {
@@ -57,14 +57,14 @@ void imprimePosfixa(Node* raiz)
 }
 
 
-// Essa função vai ver se é um operador ou nao
+// Essa funï¿½ï¿½o vai ver se ï¿½ um operador ou nao
 bool ehOperador(char op) {
 	return (op == '+' || op == '-' || op == '*' || op == '/');
 }
 
 ofstream arquivoInfixa("infixa.out.txt");
 
-// Imprime em notação infixa
+// Imprime em notaï¿½ï¿½o infixa
 void imprimeInfixa(Node* raiz)
 {
 
@@ -74,21 +74,24 @@ void imprimeInfixa(Node* raiz)
 
 	// Se for um operador, abre parentese
 	if (ehOperador(raiz->data)) {
+		arquivoInfixa << "(";
 		cout << "(";
 	}
 
 	imprimeInfixa(raiz->esq);
+	arquivoInfixa << raiz->data;
 	cout << raiz->data;
 	imprimeInfixa(raiz->dir);
 
 	// fecha parentese
 	if (ehOperador(raiz->data)) {
+		arquivoInfixa << ")";
 		cout << ")";
 	}
 }
 
 
-// Funcao para construir a árvore >> expressao posfixa
+// Funcao para construir a ï¿½rvore >> expressao posfixa
 Node* construct(string postfix)
 {
 	// caso base, quando o tamanho da stack for 0
@@ -103,7 +106,7 @@ Node* construct(string postfix)
 	{
 		if (ehOperador(op))
 		{
-			// realizando pop do nó x e do nó y
+			// realizando pop do nï¿½ x e do nï¿½ y
 			Node* x = s.top();
 			s.pop();
 
@@ -122,11 +125,12 @@ Node* construct(string postfix)
 	return s.top();
 }
 
+
 bool ehFolha(Node* raiz) {
     return raiz->esq == nullptr && raiz->dir == nullptr;
 }
 
-// Função que faz o calculo das 'folhas'
+// Funï¿½ï¿½o que faz o calculo das 'folhas'
 int calcfolha(char op, int x, int y)
 {
     if (op == '+') { return x + y; }
@@ -137,6 +141,8 @@ int calcfolha(char op, int x, int y)
     return 0;
 }
 
+ofstream result("aval.out.txt");
+
 int Resultado(Node* raiz)
 {
     // caso base
@@ -144,19 +150,19 @@ int Resultado(Node* raiz)
         return 0;
     }
 
-    // ver se é uma folha e faz a conversão de char para int
+    // ver se ï¿½ uma folha e faz a conversï¿½o de char para int
     if (ehFolha(raiz)) {
-        // fazendo a conversão
+        // fazendo a conversï¿½o
         stringstream strm;
         strm << raiz->data;
         return stoi(strm.str());
     }
 
-    // calculo recursivo: sub-árvore da esquerda e sub-árvore da direita
+    // calculo recursivo: sub-ï¿½rvore da esquerda e sub-ï¿½rvore da direita
     int x = Resultado(raiz->esq);
     int y = Resultado(raiz->dir);
 
-    //função para calculo das folhas x e y (vide função calcFolha())
+    //funï¿½ï¿½o para calculo das folhas x e y (vide funï¿½ï¿½o calcFolha())
     return calcfolha(raiz->data, x, y);
 }
 
@@ -168,12 +174,30 @@ int main()
 
     string linha;
 
+	if(arquivoPreOrdem.is_open()){
+		cout << "arquivoPreOrdem: aberto com sucesso!" << endl;
+	}else{
+		cout << "arquivoPreOrdem: Erro na abertura do arquivo" << endl;
+	}
+
+	if(arquivoInfixa.is_open()){
+		cout << "arquivoInfixa: aberto com sucesso!" << endl;
+	}else{
+		cout << "arquivoInfixa: Erro na abertura do arquivo" << endl;
+	}
+
+	if(result.is_open()){
+		cout << "result: aberto com sucesso!" << endl;
+	}else{
+		cout << "result: Erro na abertura do arquivo" << endl;
+	}
+
     //Abrindo arquivo poxfixa.in conforme solicitado
     posfixa.open ("posfixa.in.txt");
 
     if(posfixa.is_open()){
 
-        while(getline(posfixa, linha)){ // pegando linha por linha do arquivo, pois cada linha é uma expressão
+        while(getline(posfixa, linha)){ // pegando linha por linha do arquivo, pois cada linha ï¿½ uma expressï¿½o
 
             Node* raiz = construct(linha);
 
@@ -182,20 +206,27 @@ int main()
 
             cout << endl << "Expressao em in-fixa: ";
             imprimeInfixa(raiz);
+			arquivoInfixa << endl;
 
             cout << endl << "RESULTADO: ";
+			result << Resultado(raiz) << endl;
             cout << Resultado(raiz);
+
+			
 
             cout << endl << "Expressao em pre-fixa: ";
             cout << imprimePrefixa(raiz);
             arquivoPreOrdem << endl;
 
         }
-
-            posfixa.close(); // fechando arquivo posfixa
+			//fecha os respectivos arquivos
+            posfixa.close(); 
+			arquivoInfixa.close(); 
+			arquivoPreOrdem.close();
+			result.close();
 
         }else{
-        cout << "Nao foi possível abrir posfixa.txt" << endl;
+        cout << "Nao foi possï¿½vel abrir posfixa.txt" << endl;
     }
 
     return 0;
