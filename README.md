@@ -5,7 +5,7 @@
 
 
 ## Por que em C++?
-Por ter adquirido intimidade ao realizar um grande projeto na matéria de LP1, a qual utiliza como linguagem principal o C++. Além disso, não gosto dos problemas de gerenciamento de memória da linguagem C.
+Por ter adquirido intimidade ao realizar um grande projeto na matéria de LP1, a qual utiliza como linguagem principal o C++. Além disso, não gostamos dos problemas de gerenciamento de memória da linguagem C.
 
 ## ESBOÇO INICIAL
 ![photo1655066957 red](https://user-images.githubusercontent.com/30900829/173253544-cc363639-1422-4b0e-b5a9-e95f42be0c02.jpg)
