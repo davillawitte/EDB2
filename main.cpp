@@ -2,8 +2,10 @@
 #include <fstream>
 #include <string.h>
 #include <stack>
+#include <sstream>
+#include <math.h>
 
-//TRABALHO DE EDB2 - ALUNA: ROSANGELA D AVILLA
+//TRABALHO DE EDB2 - UNID 2 - ALUNOS:IVISON FILHO e ROSANGELA D AVILLA
 
 using namespace std;
 
@@ -59,6 +61,8 @@ void imprimePosfixa(Node* raiz)
 bool ehOperador(char op) {
 	return (op == '+' || op == '-' || op == '*' || op == '/');
 }
+
+ofstream arquivoInfixa("infixa.out.txt");
 
 // Imprime em notação infixa
 void imprimeInfixa(Node* raiz)
@@ -118,6 +122,44 @@ Node* construct(string postfix)
 	return s.top();
 }
 
+bool ehFolha(Node* raiz) {
+    return raiz->esq == nullptr && raiz->dir == nullptr;
+}
+
+// Função que faz o calculo das 'folhas'
+int calcfolha(char op, int x, int y)
+{
+    if (op == '+') { return x + y; }
+    if (op == '-') { return x - y; }
+    if (op == '*') { return x * y; }
+    if (op == '/') { return x / y; }
+
+    return 0;
+}
+
+int Resultado(Node* raiz)
+{
+    // caso base
+    if (raiz == nullptr) {
+        return 0;
+    }
+
+    // ver se é uma folha e faz a conversão de char para int
+    if (ehFolha(raiz)) {
+        // fazendo a conversão
+        stringstream strm;
+        strm << raiz->data;
+        return stoi(strm.str());
+    }
+
+    // calculo recursivo: sub-árvore da esquerda e sub-árvore da direita
+    int x = Resultado(raiz->esq);
+    int y = Resultado(raiz->dir);
+
+    //função para calculo das folhas x e y (vide função calcFolha())
+    return calcfolha(raiz->data, x, y);
+}
+
 int main()
 {
 
@@ -140,6 +182,9 @@ int main()
 
             cout << endl << "Expressao em in-fixa: ";
             imprimeInfixa(raiz);
+
+            cout << endl << "RESULTADO: ";
+            cout << Resultado(raiz);
 
             cout << endl << "Expressao em pre-fixa: ";
             cout << imprimePrefixa(raiz);
