@@ -171,7 +171,6 @@ int main()
 {
     //declarando arquivos solicitados
     ifstream posfixa;
-    ofstream aval, prefixa, infixa;
 
     string linha;
 
